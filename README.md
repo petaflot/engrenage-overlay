@@ -2,7 +2,8 @@
 
 ## Setting up
 
-`/etc/portage/repos.conf/engrenage`
+In file `/etc/portage/repos.conf/engrenage`:
+
     [engrenage-overlay]
     name = engrenage-overlay
     location = /var/db/repos/engrenage-overlay
