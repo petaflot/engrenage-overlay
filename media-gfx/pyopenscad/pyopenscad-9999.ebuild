@@ -19,13 +19,14 @@ EGIT_REPO_URI="https://github.com/gsohler/openscad.git"
 LICENSE="GPL-3+ LGPL-2.1 GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="cairo dbus egl experimental gamepad gui hidapi mimalloc spacenav"
+IUSE="cairo dbus egl experimental gamepad gui hidapi mimalloc spacenav python"
 RESTRICT="test" # 32 out 1300+ tests fail
 
 REQUIRED_USE="
 	dbus? ( gui )
 	gamepad? ( gui )
 	spacenav? ( gui )
+	python? ( experimental )
 "
 
 RDEPEND="
@@ -69,7 +70,9 @@ BDEPEND="
 	sys-devel/flex
 	sys-devel/gettext
 	virtual/pkgconfig
+	dev-libs/crypto++
 "
+# crypto++ only if use python!
 
 DOCS=(
 	README.md
@@ -102,6 +105,13 @@ src_configure() {
 		mycmakeargs+=(
 			-DENABLE_GAMEPAD=$(usex gamepad)
 			-DENABLE_QTDBUS=$(usex dbus)
+		)
+	fi
+
+	if use python; then
+		mycmakeargs+=(
+			-DENABLE_PYTHON=1
+			-DENABLE_LIBFIVE=1
 		)
 	fi
 
